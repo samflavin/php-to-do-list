@@ -1,4 +1,12 @@
 <!DOCTYPE html>
+
+<?php include 'db.php';
+
+$sql = "select * from tasks";
+
+$rows=$db->query($sql);
+
+?>
 <html lang="en">
 <head>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -19,7 +27,6 @@
 
 <div class="row" style="margin-top: 70px;">
         <div class="col-md-10 col-md-offset-1">
-        <table class="table">
         <button type="button" data-target="#myModal" data-toggle="modal" class="btn btn-success">Add Task</button>
         <button type="button" class="btn btn-default" text="right">Print</button>
         <hr><br>
@@ -35,7 +42,13 @@
         <h4 class="modal-title">Modal Header</h4>
       </div>
       <div class="modal-body">
-        <p>Some text in the modal.</p>
+        <form method="post" action="add.php" >
+            <div class="form-group">
+            <label>Task Name</label>
+            <input type="text" required name="task" class="form-control">
+            </div>
+            <input type="submit" name="send" value="Add Task" class="btn btn-success" >
+        </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -45,23 +58,26 @@
   </div>
 </div>
       
-
+<table class="table">
   <thead>
     <tr>
-      <th scope="col">No.</th>
+      <th scope="col">ID.</th>
       <th scope="col">Task</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th scope="row">1</th>
-      <td class="col-md-10">Mark</td>
+
+
+        <?php while($row = $rows->fetch_assoc()): ?>
+      
+      <th scope="row"><?php echo $row['id'] ?></th>
+      <td class="col-md-10"><?php echo $row['name'] ?></td>
       <td><a href="" class="btn btn-success">Edit</a></td>
       <td><a href="" class="btn btn-danger">Delete</a></td>
-
-
-     
     </tr>
+      <?php endwhile; ?>
+
    
   </tbody>
 </table>
